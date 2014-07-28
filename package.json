@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "sylvester": "0.0.21",
-    "async": "0.2.9"
+    "async": "0.2.9",
+    "ar-drone": "0.3.2"
   },
   "devDependencies": {
     "utest": "0.0.6",
