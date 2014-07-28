@@ -6,25 +6,28 @@ var autonomy = require(common.root);
 
 test('Controller', {
     before: function() {
-        this.mockClient      = {};
-        this.mockClient.on   = sinon.stub();
-        this.mockClient.stop = sinon.stub();
+        this.mockClient          = {};
+        this.mockClient.on       = sinon.stub();
+        this.mockClient.stop     = sinon.stub();
+        this.mockSecurity        = {};
+        this.mockSecurity.reset  = sinon.stub();
+        this.mockSecurity.check  = sinon.stub().returns(true);
     },
 
     'controller binds on navdata': function() {
-        var ctrl = new autonomy.Controller(this.mockClient);
+        var ctrl = new autonomy.Controller(this.mockClient, this.mockSecurity);
         assert.equal(this.mockClient.on.callCount, 1);
     },
 
     'disabling the controller stops the drone': function() {
-        var ctrl = new autonomy.Controller(this.mockClient);
+        var ctrl = new autonomy.Controller(this.mockClient, this.mockSecurity);
         ctrl.disable();
         assert.equal(this.mockClient.stop.callCount, 1);
         assert.equal(ctrl._enabled, false);
     },
 
     'hover assigns current state as goal': function() {
-        var ctrl  = new autonomy.Controller(this.mockClient);
+        var ctrl  = new autonomy.Controller(this.mockClient, this.mockSecurity);
         var state = {x: 1, y: 2, z: 3, yaw: 0};
 
         ctrl._state = state;
@@ -38,7 +41,7 @@ test('Controller', {
     },
 
     'forward mapping works with different yaw': function() {
-        var ctrl  = new autonomy.Controller(this.mockClient);
+        var ctrl  = new autonomy.Controller(this.mockClient, this.mockSecurity);
         ctrl._state = {x: 0, y: 0, z: 1, yaw: 0};
 
         // Test forward with yaw 0
@@ -67,7 +70,7 @@ test('Controller', {
     },
 
     'right mapping works with different yaw': function() {
-        var ctrl  = new autonomy.Controller(this.mockClient);
+        var ctrl  = new autonomy.Controller(this.mockClient, this.mockSecurity);
         ctrl._state = {x: 0, y: 0, z: 1, yaw: 0};
 
         // Test right with yaw 0
@@ -90,7 +93,7 @@ test('Controller', {
     },
 
     'backward is the inverse of forward': function() {
-        var ctrl    = new autonomy.Controller(this.mockClient);
+        var ctrl    = new autonomy.Controller(this.mockClient, this.mockSecurity);
         var cb      = function() {};
         ctrl._state = {x: 0, y: 0, z: 1, yaw: 0};
         sinon.spy(ctrl, 'forward');
@@ -100,7 +103,7 @@ test('Controller', {
     },
 
     'left is the inverse of right': function() {
-        var ctrl    = new autonomy.Controller(this.mockClient);
+        var ctrl    = new autonomy.Controller(this.mockClient, this.mockSecurity);
         var cb      = function() {};
         ctrl._state = {x: 0, y: 0, z: 1, yaw: 0};
         sinon.spy(ctrl, 'right');
@@ -110,7 +113,7 @@ test('Controller', {
     },
 
     'zero reset the kalman filter': function() {
-        var ctrl    = new autonomy.Controller(this.mockClient);
+        var ctrl    = new autonomy.Controller(this.mockClient, this.mockSecurity);
         sinon.spy(ctrl._ekf, 'reset');
 
         ctrl.zero();
@@ -118,7 +121,7 @@ test('Controller', {
     },
 
     'up': function() {
-        var ctrl  = new autonomy.Controller(this.mockClient);
+        var ctrl  = new autonomy.Controller(this.mockClient, this.mockSecurity);
         var state = {x: 1, y: 2, z: 3, yaw: 0};
 
         ctrl._state = state;
@@ -132,7 +135,7 @@ test('Controller', {
     },
 
     'down is invserse of up': function() {
-        var ctrl    = new autonomy.Controller(this.mockClient);
+        var ctrl    = new autonomy.Controller(this.mockClient, this.mockSecurity);
         var cb      = function() {};
         ctrl._state = {x: 0, y: 0, z: 1, yaw: 0};
         sinon.spy(ctrl, 'up');
@@ -142,7 +145,7 @@ test('Controller', {
     },
 
     'cannot go too low': function() {
-        var ctrl  = new autonomy.Controller(this.mockClient);
+        var ctrl  = new autonomy.Controller(this.mockClient, this.mockSecurity);
         var state = {x: 0, y: 0, z: 1, yaw: 0};
 
         ctrl._state = state;
@@ -156,7 +159,7 @@ test('Controller', {
     },
 
     'altitude': function() {
-        var ctrl  = new autonomy.Controller(this.mockClient);
+        var ctrl  = new autonomy.Controller(this.mockClient, this.mockSecurity);
         var state = {x: 0, y: 0, z: 1, yaw: 0};
 
         ctrl._state = state;
