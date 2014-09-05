@@ -16,5 +16,5 @@ exports.createMission = function (options) {
     var security = new autonomy.Security();
     var control = new autonomy.Controller(client, security, options);
 
-    return new autonomy.Mission(client, control, options);
+    return new autonomy.Mission(client, control, security, options);
 };
