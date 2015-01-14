@@ -79,7 +79,7 @@ U
 |   |
 |_ _ _ _ _ _ _ R_ >
 ```
-#### Legend
+Legend
 ```sh
 . = drone
 | and _ = 1 meter
