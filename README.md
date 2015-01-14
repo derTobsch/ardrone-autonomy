@@ -55,6 +55,7 @@ To declare the security box you have to go into the file lib/Security.js and ada
 
 This unit is in meters. So you will have a Security box like that:
 
+```sh
 ^
 |
 F
@@ -65,8 +66,9 @@ F
 |  _._ _ _
 |   |
 |_ _ _ _ _ _ _ R_ >
+```
 
-
+```sh
 ^
 |
 U
@@ -76,7 +78,7 @@ U
 |  _._ _ _
 |   |
 |_ _ _ _ _ _ _ R_ >
-
+```
 
 Legend:
 . = drone
