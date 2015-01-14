@@ -13,10 +13,78 @@ you want to go, the library takes your drone there.
 This work is based on the [Visual Navigation for Flying Robots](http://vision.in.tum.de/teaching/ss2013/visnav2013) course.
 
 **WARNING:**  This is early work. _Autonomous_ means that this library will move your drone
-automaticaly to reach a given target. There isn't much security in place yet, so if you 
+automatically to reach a given target. There isn't much security in place yet, so if you 
 do something wrong, you may have your drone fly away :-)
 
 **!! Experiment with this library in a closed/controlled environment before going in the wild !!**
+
+## Installation
+
+Check out this repository.
+
+```sh
+git clone https://github.com/derTobsch/ardrone-autonomy.git
+```
+
+Go into the 'ardrone-autonomy' directory
+```sh
+cd ardrone-autonomy-d4k
+```
+
+And install all dependency via npm (Node has to be installed, http://nodejs.org/)
+```sh
+npm install
+```
+
+## Security Box
+
+We implemented the first version of a security box. This is only the first implementation and it 
+may have failures so please use with care! We do not guarantee safety right now.
+
+
+To declare the security box you have to go into the file lib/Security.js and adapt the parameters at the top
+
+```sh
+    this._x_max_forward     = 3;    // forward
+    this._x_max_backward    = -1;   // backward
+    this._y_max_left        = -1;   // left
+    this._y_max_right       = 3;    // right
+    this._z_max_up          = 2;    // up
+    this._z_max_down        = 1;    // down
+```
+
+This unit is in meters. So you will have a Security box like that:
+
+^
+|
+F
+|
+|   |
+|   |
+|   |
+|  _._ _ _
+|   |
+|_ _ _ _ _ _ _ R_ >
+
+
+^
+|
+U
+|
+|   |
+|   |
+|  _._ _ _
+|   |
+|_ _ _ _ _ _ _ R_ >
+
+
+Legend:
+. = drone
+| and _ = 1 meter
+F = Forward
+R = Right
+U = UP
+
 
 ## Features
 
