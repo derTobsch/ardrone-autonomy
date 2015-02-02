@@ -28,7 +28,7 @@ git clone https://github.com/derTobsch/ardrone-autonomy.git
 
 Go into the 'ardrone-autonomy' directory
 ```sh
-cd ardrone-autonomy-d4k
+cd ardrone-autonomy
 ```
 
 And install all dependency via npm (Node has to be installed, http://nodejs.org/)
